@@ -1,0 +1,42 @@
+server:
+  url: http://localhost
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: "/"
+
+---
+
+spring:
+  --mvc:
+    --view:
+      --prefix: /WEB-INF/jsp/
+      --suffix: .jsp
+      --static-path-pattern: /WEB-INF/static/**
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/schema01   
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: appusr
+    password: usr123!
+    minimum-idle: 5
+    maximum-pool-size: 10
+    idle-timeout: 30000
+    max-lifetime: 200000
+    connection-timeout: 30000
+    connection-test-query: /*CONNECTION TEST QUERY*/SELECT NOW() FROM DUAL
+
+  logging:
+    pattern:
+      console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
+    level:
+      org:
+        springframework: DEBUG
+
+
+mybatis:
+  type-aliases-package: com.specialoffer.**.mapper
+  mapper-locations: mybatis/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

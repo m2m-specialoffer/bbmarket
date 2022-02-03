@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.specialoffer.offer.mapper.OfferProdMapper">
+
+    <select id="selectOfferProdList"  parameterType="HashMap" resultType="HashMap">
+		SELECT CD
+			, NM
+			, DATE_FORMAT(SYSDATE(),'%Y%m%d') NOWDT
+		FROM SCHEMA01.TCODE T
+		WHERE 1=1
+		AND CD = #{cd}
+    </select>
+
+    <select id="selectOfferProdListPaging"  parameterType="HashMap" resultType="HashMap">
+		SELECT A.*
+		FROM
+			(
+				SELECT ROW_NUMBER() OVER(ORDER BY CD) AS ROW_NUM,
+				    CD
+				  , NM
+				  , DATE_FORMAT(SYSDATE(),'%Y%m%d') NOWDT
+				FROM TCODE T
+				WHERE 1=1
+				AND CD = #{cd}
+			) A
+		WHERE A.ROW_NUM BETWEEN (#{pageNumber} - 1) * (#{rowsPerPage} + 1) AND (#{pageNumber} * #{rowsPerPage})
+		ORDER BY CD
+    </select>
+    
+</mapper>
